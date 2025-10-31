@@ -21,4 +21,9 @@ public class GcpCloudRunController {
     public  String about(){
         return "This is a demo service deployed in GCP Cloud Run";
     }
+
+    @GetMapping("/newAPI")
+    public  String newAPI(){
+        return "This is a new API endpoint in GCP Cloud Run Service after deployment";
+    }
 }
