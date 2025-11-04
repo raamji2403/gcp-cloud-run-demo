@@ -31,4 +31,9 @@ public class GcpCloudRunController {
     public ResponseEntity<?> getEmployeeByEmail(@PathVariable("email") String email){
         return ResponseEntity.ok(employeeRepository.findByEmail(email));
     }
+
+    @GetMapping("/all/employees")
+    public ResponseEntity<?> getAllEmployees(){
+        return ResponseEntity.ok(employeeRepository.findAll());
+    }
 }
