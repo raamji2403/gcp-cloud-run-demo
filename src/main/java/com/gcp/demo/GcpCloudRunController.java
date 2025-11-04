@@ -1,29 +1,34 @@
 package com.gcp.demo;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class GcpCloudRunController {
 
+    private final EmployeeRepository employeeRepository;
+
+    public GcpCloudRunController(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
     @GetMapping()
-    public  String hello(){
-        return "Welcome to GCP Cloud Run Service - Home Page";
+    public ResponseEntity<String> hello(){
+        return ResponseEntity.ok("Welcome to Google Cloud-run Home Page");
     }
 
-    @GetMapping("/{user}")
-    public  String helloUser(@PathVariable String user){
-        return "Welcome to GCP Cloud Run Service, " + user;
+    @PostMapping("/addEmployee")
+    public ResponseEntity<?> addNewEmployee(@RequestBody Employee employee){
+        return ResponseEntity.ok(employeeRepository.save(employee));
     }
 
-    @GetMapping("/about")
-    public  String about(){
-        return "This is a demo service deployed in GCP Cloud Run";
+    @GetMapping("/employee/name/{name}")
+    public ResponseEntity<?> getEmployee(@PathVariable("name") String name){
+        return ResponseEntity.ok(employeeRepository.findByNameIgnoreCase(name));
     }
 
-    @GetMapping("/newAPI")
-    public  String newAPI(){
-        return "This is a new API endpoint in GCP Cloud Run Service after deployment";
+    @GetMapping("/employee/email/{email}")
+    public ResponseEntity<?> getEmployeeByEmail(@PathVariable("email") String email){
+        return ResponseEntity.ok(employeeRepository.findByEmail(email));
     }
 }
